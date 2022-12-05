@@ -49,7 +49,15 @@ workflows: # workflows to be run under conditions
   build-deploy: # name of a workflow that build the app and deployed when pushing on the main branch
     jobs: # jobs to be run in this workflow
       - build-frontend: # run build-frontend job
+          filters: # specify that this job will run only in branch main
+            branches:
+              only:
+                - main
       - build-backend: # run build-backend job
+          filters: # specify that this job will run only in branch main
+            branches:
+              only:
+                - main
       - deploy: # run deploy job
           requires: # require that the build job to complete successfuly
             - build-frontend
