@@ -5,27 +5,42 @@ orbs: # orbs are predifend recipies
   eb: circleci/aws-elastic-beanstalk@2.0.1 # https://circleci.com/developer/orbs/orb/circleci/aws-elastic-beanstalk
   aws-cli: circleci/aws-cli@3.1.4 # https://circleci.com/developer/orbs/orb/circleci/aws-cli
 jobs: # different jobs are calles later in the workflows sections
-  build: # build job
+  build-frontend: # build frontend job
     docker: # the base image can run most needed actions with orbs
       - image: "cimg/base:stable" # ubuntu docker image
     steps: # steps to be run to build job
       - node/install: # install node
-          node-version: '14.15'        
-      - eb/setup # setup eb
-      - aws-cli/setup # setup aws-cli 
+          node-version: '14.15'
       - checkout # checkout code
       - run: # install dependencies in the frontend app
           name: Install Front-End Dependencies
-          command: npm run frontend:install        
+          command: npm run frontend:install
+      - run: # build the frontend app
+          name: Build Frontend
+          command: npm run frontend:build
+  build-backend: # build backend job
+    docker: # the base image can run most needed actions with orbs
+      - image: "cimg/base:stable" # ubuntu docker image
+    steps: # steps to be run to build job
+      - node/install: # install node
+          node-version: '14.15'
+      - checkout # checkout code     
       - run: # install dependencies in the the backend API
           name: Install API Dependencies
           command: npm run api:install
-      - run: # build the frontend app
-          name: Front-End Build
-          command: npm run frontend:build
       - run: # build the backend API    
-          name: API Build
+          name: Build Backend API
           command: npm run api:build
+  deploy: # deploy step will run only after manual approval
+    docker:
+      - image: "cimg/base:stable" # ubuntu docker image
+      # more setup needed for aws, node, elastic beanstalk
+    steps:
+      - node/install: # install node
+          node-version: '14.15' 
+      - eb/setup # setup eb
+      - aws-cli/setup # setup aws-cli
+      - checkout # checkout code
       - run: # deploy the backend API & frontend app
           name: deploy Backend & Frontend
           command: npm run deploy
@@ -33,8 +48,9 @@ jobs: # different jobs are calles later in the workflows sections
 workflows: # workflows to be run under conditions
   build-deploy: # name of a workflow that build the app and deployed when pushing on the main branch
     jobs: # jobs to be run in this workflow
-      - build: # run build job
-          filters: # specify that this job will run only in branch main
-            branches:
-              only:
-                - main
+      - build-frontend: # run build-frontend job
+      - build-backend: # run build-backend job
+      - deploy: # run deploy job
+          requires: # require that the build job to complete successfuly
+            - build-frontend
+            - build-backend
