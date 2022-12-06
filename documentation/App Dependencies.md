@@ -1,4 +1,4 @@
-#Dependencies
+# Dependencies
 
 The required dependencies to run this project:
 - Node v14.15.1 (LTS) or more recent. While older versions can work it is advisable to keep node to latest LTS version.
