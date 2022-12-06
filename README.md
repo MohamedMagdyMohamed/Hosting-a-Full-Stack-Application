@@ -2,7 +2,22 @@
 
 ### **You can use you own project completed in previous courses or use the provided Udagram app for completing this final project.**
 
+## Table of Contents
+- [Getting Started](#getting-started)
+- [Installation](#installation)
+- [Dependancies](#dependencies)
+- [Testing](#testing)
+  - [Unit Tests](#unit-tests)
+  - [End to End Tests](#end-to-end-tests)
+- [Built With](#built-with)
+- [License]($license)
+
 ---
+
+## Getting Started
+
+This repo (starter project taken from [Udacity](https://github.com/udacity/nd0067-c4-deployment-process-project-starter)) contains a both frontend project and backend project to get started fast with the deployment procces.
+
 
 In this project you will learn how to take a newly developed Full-Stack application built for a retailer and deploy it to a cloud service provider so that it is available to customers. You will use the aws console to start and configure the services the application needs such as a database to store product information and a web server allowing the site to be discovered by potential customers. You will modify your package.json scripts and replace hard coded secrets with environment variables in your code.
 
