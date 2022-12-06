@@ -1,4 +1,4 @@
-#Pipeline
+# Pipeline
 Developer push the code to the Github server which the CircleCi watches and then trigers the workflow that Install, Build, and Deploy the Frontend & Backend application to the end users.
 
 ![Pipeline Diagram](architecture-diagrams/pipeline-diagram.png)
